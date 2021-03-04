@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include('../partials/head.ejs') -%>
+  </head>
+  <body>
+    <h1>All Logs</h1>
+    <h2>Hi <span class=" white-text purple darken-4"><%=currentUser.username%></span></h2>
+    <form action="/logs" method="POST">
+      <input type="text" placeholder="logs..." name="title" required />
+      <button class="waves-effect waves-light btn" type="submit">Create New Log</button>
+    </form>
+    <div class="row">
+      <div>
+
+      </div>
+        <% for(let i=0; i<logs.length; i++) { %> 
+          <div class="card col s12 m7">
+            <h1>Log Title:<a href="/logs/<%=logs[i]._id%>"><%=logs[i].title%></a></h1>
+            <h3>Created by : <%=logs[i].createdBy.username%></h3>
+            <div>
+              <h3>All Comments</h3>
+              <% if (logs[i].comments) { %>
+                <% for(let j =0; j<logs[i].comments.length; j++) { %>
+                  <h4 class='red-text'><%=logs[i].comments[j].comment%></h4>
+                  <h6 class='red-text float right'>Commented By <%=logs[i].comments[j].enteredBy.username%></h6>
+                <% } %>
+              <% } %>
+            </div>
+            <form action="/logs/<%=logs[i]._id%>" method="POST">
+                <input type="text" placeholder="logs..." name="comment" required />
+                <button class="waves-effect waves-light btn float right"type="submit">Create New Comment</button>
+            </form>
+          </div>
+            
+        <% } %>
+    </div>
+  </body>
+</html>
